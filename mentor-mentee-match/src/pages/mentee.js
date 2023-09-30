@@ -176,7 +176,11 @@ const Mentor = () => {
           },
         ]}
       >
-        <Input />
+        {dataname === "Name" || dataname === "Email" || dataname === "Phone_number" ?
+            <Input />
+        :
+            <Input.TextArea />
+        }
       </Form.Item>
     );
   

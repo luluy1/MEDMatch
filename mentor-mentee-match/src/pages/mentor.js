@@ -120,7 +120,7 @@ const Mentor = () => {
             overlay={menu(options, getOptionStateFunction(dataname), getSetOptionStateFunction(dataname))}
             placement="bottom"
             trigger={['click']}
-            style={{ width: '100%', textAlign: 'left' }}
+            style={{ width: '100%', textAlign: 'left'}}
           >
              <a onClick={(e) => e.preventDefault()}>
               <Space>
@@ -144,7 +144,11 @@ const Mentor = () => {
           },
         ]}
       >
-        <Input />
+        {dataname === "Name" || dataname === "Email" || dataname === "Phone_number" ?
+            <Input />
+        :
+            <Input.TextArea />
+        }
       </Form.Item>
     );
   };

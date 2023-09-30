@@ -27,7 +27,7 @@ const Home = () => (
             e.preventDefault();
             window.open("/mentor", "_self");
           }}
-          style = {{fontFamily: 'Avenir-Medium', backgroundColor: '#ff9e6d', color: "white"}}
+          style = {{fontFamily: 'Avenir-Medium', backgroundColor: '#ff9e6d', color: "white", borderRadius: "20px"}}
         >
           Mentor form
         </Button>
@@ -37,7 +37,7 @@ const Home = () => (
             e.preventDefault();
             window.open("/mentee", "_self");
           }}
-          style = {{fontFamily: 'Avenir-Medium', backgroundColor: '#00A4CA', color: "white"}}
+          style = {{fontFamily: 'Avenir-Medium', backgroundColor: '#00A4CA', color: "white", borderRadius: "20px"}}
         >
           Mentee form
         </Button>
