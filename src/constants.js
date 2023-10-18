@@ -1,6 +1,6 @@
 export const areas = [
     "Tutoring (i.e. classes, SAT/ACT prep, AP test prep, etc.)",
-    "Resarch",
+    "Research",
     "Shadowing",
     "Internships (i.e. summer programs, applications, etc.)",
     "Enrichment (i.e. learning about healthcare)",

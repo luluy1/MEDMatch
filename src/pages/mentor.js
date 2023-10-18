@@ -155,7 +155,8 @@ const Mentor = () => {
 
   const onFinish = async (values) => {
       //post to database
-      const response = await axios.post('https://mentor-production.up.railway.app/addMentor', {
+      if (Number.isInteger(values.How_many_mentees)){
+        const response = await axios.post('https://mentor-production.up.railway.app/addMentor', {
             Name: values.Name, 
             Email: values.Email, 
             Phone_number: values.Phone_number, 
@@ -172,14 +173,16 @@ const Mentor = () => {
             Ice_cream_flavor: values.Ice_cream_flavor, 
             Anything_else: values.Anything_else
         });
-      if (response && response.data) {
-          // Redirect to the profile page after successful submission
-          window.open("/", "_self");
-      } else {
-          console.error('Failed to submit data:', response.statusText);
+        if (response && response.data) {
+            // Redirect to the profile page after successful submission
+            window.open("/", "_self");
+        } else {
+            console.error('Failed to submit data:', response.statusText);
+        }
       }
-      console.log('Success:', values);
-
+      else{
+        window.alert("Please enter an integer value for how many mentees you want!")
+      }
     }
 
 
