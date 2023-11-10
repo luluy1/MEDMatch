@@ -38,8 +38,9 @@ const fieldList = [
   "Examples of career interests and goals include health equity, women's health, research, etc.", "Career_goals_in_health_care", true, "input", []], 
   ["What are some of your hobbies and interests outside of medicine/healthcare? \nPlease list your keywords with commas between each one: " + 
   "[Interest 1], [Interest 2], etc.\n Examples of interests outside of medicine/healthcare include sports, music, dance, etc.", "Hobbies", true, "input", []],
-  ["Please enter information about your schedule that will help us match you with the best tutor! Information includes ideal number of times/hours " + 
-  "you would like to meet per week, what days/times you are available, whether you prefer in-person and/or virtual mentorship, etc.", "When_are_you_available", true, "input", []],
+  ["Please enter information about your schedule that will help us match you with the best tutor! Information includes " + 
+  "what days/times you are available, whether you prefer in-person and/or virtual mentorship, etc.", "When_are_you_available", true, "input", []],
+  ["Please indicate the ideal number of hours you'd like to meet per week with your mentor", "Hours", true, "dropdown", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
   ["If you were an ice cream flavor, what ice cream flavor would you be and why?", "Ice_Cream", true, "input", []],
   ["How did you hear about us?", "How_did_you_hear_about_us", false, "dropdown", sources], //dropdown
   ["Anything else you'd like us to know?", "Anything_else", true, "input", []],
@@ -55,6 +56,7 @@ const Mentor = () => {
   const [choseSameRace, setChoseSameRace] = useState("N/A");
   const [chosenAreas, setChosenAreas] = useState([]);
   const [chosenSources, setChosenSources] = useState([]);
+  const [chosenHours, setChosenHours] = useState(0);
 
   const menu = (options, optionState, setOptionState) => {
     return (
@@ -71,7 +73,7 @@ const Mentor = () => {
                     : [...noNullOptions, option];
                     setOptionState(updatedOptions);
                 }
-                else{
+                else if (typeof optionState === "string") {
                     console.log(optionState)
                     console.log(option)
                     if (option === 'Yes'){
@@ -83,6 +85,10 @@ const Mentor = () => {
                     else{
                         setOptionState(option);
                     }
+                }
+                else{
+                  console.log(option);
+                  setOptionState(option);
                 }
                 
               }}
@@ -189,6 +195,18 @@ const Mentor = () => {
 
   const onFinish = async (values) => {
       //post to database
+      
+      //validate email here: 
+      function validateEmail(email) {
+        const emailRegex = /.*@.*/;
+        return emailRegex.test(email);
+      }
+        //if it isn't valid, then put an alert 
+      if (validateEmail(values.Email)){
+        window.alert('The email you entered is not valid.');
+      }
+      else{
+        //else do the rest below 
         const response = await axios.post('https://mentor-production.up.railway.app/addMentee', {
             Name: values.Name, 
             Email: values.Email, 
@@ -208,16 +226,20 @@ const Mentor = () => {
             When_are_you_available : values.When_are_you_available, 
             Ice_Cream : values.Ice_Cream,
             How_did_you_hear_about_us : chosenSources,
+            Hours: chosenHours,
             Anything_else : values.Anything_else
         });
-      if (response && response.data) {
-          // Redirect to the profile page after successful submission
-          window.open("/", "_self");
-      } else {
-          console.error('Failed to submit data:', response.statusText);
-      }
-      console.log('Success:', values);
+        if (response && response.data) {
+            // Redirect to the profile page after successful submission
+            window.alert("Your data has been submitted!");
+            window.open("/", "_self");
+        } else {
+            console.error('Failed to submit data:', response.statusText);
+            window.alert("Failed to submit data")
+        }
+        console.log('Success:', values);
 
+      }
     }
 
 
@@ -242,6 +264,8 @@ const Mentor = () => {
             return setChosenAreas;
         case 'How_did_you_hear_about_us':
             return setChosenSources;
+        case 'Hours':
+            return setChosenHours;
       default:
         return null;
     }
@@ -263,6 +287,8 @@ const Mentor = () => {
             return chosenAreas;
         case 'How_did_you_hear_about_us':
             return chosenSources;
+        case 'Hours':
+            return chosenHours;
       default:
         return null;
     }

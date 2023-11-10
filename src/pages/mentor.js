@@ -155,35 +155,48 @@ const Mentor = () => {
 
   const onFinish = async (values) => {
       //post to database
-      if (Number.isInteger(values.How_many_mentees)){
-        const response = await axios.post('https://mentor-production.up.railway.app/addMentor', {
-            Name: values.Name, 
-            Email: values.Email, 
-            Phone_number: values.Phone_number, 
-            Year: chosenYear, 
-            Gender: chosenGender, 
-            Same_gender: choseSameGender, 
-            Same_race: choseSameRace, 
-            Race: chosenRace, 
-            Other_identities: values.Other_identities, 
-            Areas_want_to_tutor_in: chosenAreas, 
-            Career_interests_in_medicine: values.Career_interests_in_medicine, 
-            How_many_mentees: values.How_many_mentees,
-            Hobbies: values.Hobbies, 
-            Ice_cream_flavor: values.Ice_cream_flavor, 
-            Anything_else: values.Anything_else
-        });
-        if (response && response.data) {
-            // Redirect to the profile page after successful submission
-            window.open("/", "_self");
-        } else {
-            console.error('Failed to submit data:', response.statusText);
-        }
+      //validate email here: 
+      function validateEmail(email) {
+        const emailRegex = /.*@.*/;
+        return emailRegex.test(email);
+      }
+        //if it isn't valid, then put an alert 
+      if (validateEmail(values.Email)){
+        window.alert('The email you entered is not valid.');
       }
       else{
-        window.alert("Please enter an integer value for how many mentees you want!")
-      }
+        if (Number.isInteger(values.How_many_mentees)){
+          const response = await axios.post('https://mentor-production.up.railway.app/addMentor', {
+              Name: values.Name, 
+              Email: values.Email, 
+              Phone_number: values.Phone_number, 
+              Year: chosenYear, 
+              Gender: chosenGender, 
+              Same_gender: choseSameGender, 
+              Same_race: choseSameRace, 
+              Race: chosenRace, 
+              Other_identities: values.Other_identities, 
+              Areas_want_to_tutor_in: chosenAreas, 
+              Career_interests_in_medicine: values.Career_interests_in_medicine, 
+              How_many_mentees: values.How_many_mentees,
+              Hobbies: values.Hobbies, 
+              Ice_cream_flavor: values.Ice_cream_flavor, 
+              Anything_else: values.Anything_else
+          });
+          if (response && response.data) {
+              window.alert("Your data has been submitted!");
+              // Redirect to the profile page after successful submission
+              window.open("/", "_self");
+          } else {
+              console.error('Failed to submit data:', response.statusText);
+              window.alert("Failed to submit data")
+          }
+        }
+        else{
+          window.alert("Please enter an integer value for how many mentees you want!")
+        }
     }
+  }
 
 
   const onFinishFailed = (values, errorInfo) => {
