@@ -183,7 +183,8 @@ const Mentor = () => {
               How_many_mentees: values.How_many_mentees,
               Hobbies: values.Hobbies, 
               Ice_cream_flavor: values.Ice_cream_flavor, 
-              Anything_else: values.Anything_else
+              Anything_else: values.Anything_else,
+              Hours: chosenHours,
           });
           if (response && response.data) {
               window.alert("Your data has been submitted!");
