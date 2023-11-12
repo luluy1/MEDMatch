@@ -36,7 +36,7 @@ const fieldList = [
   ["How many mentees would you like to take on?", "How_many_mentees", true, "input", []],
   ["What are some of your hobbies and interests outside of medicine/healthcare? \nPlease list your keywords with commas between each one: " + 
   "[Interest 1], [Interest 2], etc.\n Examples of interests outside of medicine/healthcare include sports, music, dance, etc.", "Hobbies", true, "input", []],
-  ["Please indicate the ideal number of hours you'd like to meet per week with your mentee", "Hours", true, "dropdown", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
+  ["Please indicate the ideal number of hours you'd like to be a mentor for", "Hours", true, "dropdown", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
   ["If you were an ice cream flavor, what ice cream flavor would you be and why?", "Ice_cream_flavor", true, "input", []],
   ["Anything else you'd like us to know?", "Anything_else", true, "input", []],
 ]
@@ -50,7 +50,7 @@ const Mentor = () => {
   const [chosenRace, setChosenRace] = useState("N/A");
   const [choseSameRace, setChoseSameRace] = useState("N/A");
   const [chosenAreas, setChosenAreas] = useState([]);
-  const [chosenHours, setChosenHours] = useState(0);
+  const [chosenHours, setChosenHours] = useState(1);
 
   const menu = (options, optionState, setOptionState) => {
     return (
