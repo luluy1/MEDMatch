@@ -202,7 +202,7 @@ const Mentor = () => {
         return emailRegex.test(email);
       }
         //if it isn't valid, then put an alert 
-      if (validateEmail(values.Email)){
+      if (!validateEmail(values.Email)){
         window.alert('The email you entered is not valid.');
       }
       else{
