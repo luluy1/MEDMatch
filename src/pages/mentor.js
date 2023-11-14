@@ -33,10 +33,9 @@ const fieldList = [
   ["What are some of your career interests and goals in healthcare?\nPlease list your career interests " +
   "and goals as keywords with commas between each one: [Interest 1], [Interest 2], etc.\n " +
   "Examples of career interests and goals include health equity, women's health, research, etc.", "Career_interests_in_medicine", true, "input", []], 
-  ["How many mentees would you like to take on?", "How_many_mentees", true, "input", []],
   ["What are some of your hobbies and interests outside of medicine/healthcare? \nPlease list your keywords with commas between each one: " + 
   "[Interest 1], [Interest 2], etc.\n Examples of interests outside of medicine/healthcare include sports, music, dance, etc.", "Hobbies", true, "input", []],
-  ["Please indicate the ideal number of hours you'd like to be a mentor for", "Hours", true, "dropdown", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
+  ["Please indicate how many hours a week you'd like to be a mentor for", "Hours", true, "dropdown", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
   ["If you were an ice cream flavor, what ice cream flavor would you be and why?", "Ice_cream_flavor", true, "input", []],
   ["Anything else you'd like us to know?", "Anything_else", true, "input", []],
 ]
@@ -51,6 +50,9 @@ const Mentor = () => {
   const [choseSameRace, setChoseSameRace] = useState("N/A");
   const [chosenAreas, setChosenAreas] = useState([]);
   const [chosenHours, setChosenHours] = useState(1);
+
+
+
 
   const menu = (options, optionState, setOptionState) => {
     return (
@@ -155,6 +157,7 @@ const Mentor = () => {
     );
   };
 
+
   const onFinish = async (values) => {
       //post to database
       //validate email here: 
@@ -162,12 +165,18 @@ const Mentor = () => {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return emailRegex.test(email);
       }
+      function isNumeric(q) {
+        console.log(q)
+        return !isNaN(q) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+               !isNaN(parseFloat(q)) // ...and ensure strings of whitespace fail
+      }
         //if it isn't valid, then put an alert 
-      if (validateEmail(values.Email)){
+      if (!validateEmail(values.Email)){
         window.alert('The email you entered is not valid.');
       }
       else{
-        if (Number.isInteger(values.How_many_mentees)){
+        if (isNumeric(chosenHours)){
+          const casted_hours = parseInt(chosenHours, 10);
           const response = await axios.post('https://mentor-production.up.railway.app/addMentor', {
               Name: values.Name, 
               Email: values.Email, 
@@ -180,11 +189,10 @@ const Mentor = () => {
               Other_identities: values.Other_identities, 
               Areas_want_to_tutor_in: chosenAreas, 
               Career_interests_in_medicine: values.Career_interests_in_medicine, 
-              How_many_mentees: values.How_many_mentees,
+              How_many_mentees: casted_hours,
               Hobbies: values.Hobbies, 
               Ice_cream_flavor: values.Ice_cream_flavor, 
               Anything_else: values.Anything_else,
-              Hours: chosenHours,
           });
           if (response && response.data) {
               window.alert("Your data has been submitted!");
